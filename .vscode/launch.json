@@ -1,0 +1,11 @@
+{
+  "configurations": [{
+    "name": "Run the app",
+    "type": "python",
+    "request": "launch",
+    "module": "uvicorn",
+    "args": ["app.main:app", "--reload", "--port", "8040"],
+    "jinja": true,
+    "envFile": "${workspaceFolder}/.env.debug"
+  }]
+}

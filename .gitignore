@@ -1,0 +1,6 @@
+__pycache__/
+__env.cmd
+_accounts.txt
+__old/
+fly.toml
+.env*
