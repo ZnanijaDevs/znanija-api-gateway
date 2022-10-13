@@ -3,7 +3,6 @@ from fastapi import APIRouter
 from app.models import BRAINLY_ID, CheckDeletedTasksPayload
 from app.brainly_api import legacy_api, graphql_api
 from app.brainly_api.exceptions import QuestionDoesNotExistException
-from app.utils import to_id
 from app.utils.transformers import transform_task_node, transform_log_entry
 
 
@@ -43,21 +42,11 @@ async def get_task_log(id: BRAINLY_ID):
 
 @router.post('/deleted_tasks')
 async def check_deleted_tasks(payload: CheckDeletedTasksPayload):
-    task_ids = payload.ids
+    fetched_questions = await graphql_api.mapped_query_with_ids(
+        payload.ids,
+        'question',
+        'id',
+        transform_entry=lambda question: {'is_deleted': question is None},
+    )
 
-    if len(task_ids) == 0:
-        return []
-
-    query = ''
-    for task_id in task_ids:
-        query += f"q_{task_id}: question(id: \"{to_id(task_id, 'question')}\")" + "{id} "
-
-    response = await graphql_api.query('query {' + query + ' }')
-    fetched_questions = response['data']
-
-    questions = [{
-        'id': int(key.split('_').pop()),
-        'is_deleted': fetched_questions[key] is None
-    } for key in fetched_questions.keys()]
-
-    return questions
+    return fetched_questions

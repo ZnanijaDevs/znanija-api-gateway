@@ -9,7 +9,11 @@ class CheckDeletedTasksPayload(BaseModel):
 
 
 class GetBrainlyUsersPayload(BaseModel):
-    ids: conlist(item_type=BRAINLY_ID, max_items=50)
+    ids: conlist(item_type=BRAINLY_ID, max_items=1500)
+
+
+class GetBrainlyUsersWithExtraDataPayload(BaseModel):
+    ids: conlist(item_type=BRAINLY_ID, max_items=1500, min_items=1)
 
 
 class SendMessageToUserPayload(BaseModel):
