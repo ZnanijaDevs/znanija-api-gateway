@@ -1,5 +1,8 @@
 import re
-from app.constants import BRAINLY_SUBJECTS
+from app.constants import BRAINLY_SUBJECTS, DEFAULT_USER_AVATAR
+from app.brainly_api import from_id
+from app.models.users import TransformedGraphqlUser, TransformedLegacyUserWithBasicData
+from . import filter_node_content
 
 
 def get_subject_by_id(id: int) -> str:
@@ -15,11 +18,7 @@ def transform_task_node(node: dict, users_data: list[dict]) -> dict:
     node_settings = node['settings']
     node_content = node['content']
 
-    # Replace words
-    filtered_content = node_content
-    replacements = [(r"<\/?\w+\s?\/?>", ''), (r"\n{2,}", '\n'), (r"^(\s|\n)|(\s?\n)$", '')]
-    for regex, new in replacements:
-        filtered_content = re.sub(regex, new, filtered_content)
+    filtered_content = filter_node_content(node_content)
 
     transformed_node = {
         'id': node['id'],
@@ -97,3 +96,39 @@ def transform_log_entry(entry: dict, users_data: list[dict]) -> dict:
         'user': user,
         'date': entry['date']
     }
+
+
+def transform_legacy_user_with_basic_data(node: dict) -> TransformedLegacyUserWithBasicData:
+    """Transform a legacy `User` with basic data only to a dict"""
+    return {
+        'nick': node['nick'],
+        'id': node['id'],
+        'is_deleted': node['is_deleted'],
+        'avatar': node['avatar']['medium'] if node['avatar'] else None,
+    }
+
+
+def transform_gql_user(node: dict) -> TransformedGraphqlUser:
+    """Transform a GraphQL type `User` to a dict"""
+    user = TransformedGraphqlUser(
+        id=from_id(node['id']),
+        nick=node['nick'],
+        avatar=node['avatar']['url'] if node['avatar'] else DEFAULT_USER_AVATAR,
+        rank=node['rank']['name'] if node['rank'] else None,
+        created=node['created'],
+    )
+
+    # Calculate user answers
+    answer_count_by_subject: list[dict[str, dict | int]] = node.get('answerCountBySubject')
+    answers_count = 0
+
+    for count in answer_count_by_subject:
+        answers_count += count['count']
+
+        count['subject'] = count['subject']['name']
+
+    user.has_special_ranks = len(node.get('specialRanks') or []) > 0
+    user.answers_count = answers_count
+    user.answers_count_by_subject = answer_count_by_subject
+
+    return user

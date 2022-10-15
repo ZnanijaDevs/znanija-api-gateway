@@ -46,13 +46,16 @@ class GraphqlApi(Api):
         query += ' }'
 
         data = await self.query(query)
-        items = []
+        results = []
 
         for key, item in data.items():
             transformed_entry = transform_entry(item)
 
-            items.append(transformed_entry | {'id': int(key.replace('_', ''))})
+            if isinstance(transformed_entry, dict):
+                transformed_entry['id'] = int(key.replace('_', ''))
 
-        return items
+            results.append(transformed_entry)
+
+        return results
 
 graphql_api = GraphqlApi()

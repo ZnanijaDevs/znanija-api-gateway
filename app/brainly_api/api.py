@@ -1,4 +1,5 @@
 from typing import Any
+from http import HTTPStatus
 from httpx import AsyncClient as HttpClient
 from app.getenv import env
 from .exceptions import BrainlyAPIRequestGeneralException
@@ -39,6 +40,8 @@ class Api:
                 f" // time: {r.elapsed.total_seconds()}s" +
                 '\x1b[0m'
             )
+
+            assert r.status_code != HTTPStatus.BAD_GATEWAY, f"the response status is {r.status_code}"
 
             return r.json()
         except Exception as exc:

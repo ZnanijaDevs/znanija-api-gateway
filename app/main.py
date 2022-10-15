@@ -5,7 +5,6 @@ from starlette.exceptions import HTTPException
 
 from app.middleware.auth_middleware import auth_middleware
 from app.brainly_api.exceptions import BrainlyAPIRequestGeneralException
-from app.errors.general_exception import exception_handler
 from app.errors.http_exception import http_exception_handler
 from app.errors.brainly_error import brainly_request_error_handler
 from app.getenv import env, is_production
@@ -33,7 +32,6 @@ def get_application() -> FastAPI:
         allow_headers=['*'],
     )
 
-    application.add_exception_handler(Exception, exception_handler)
     application.add_exception_handler(HTTPException, http_exception_handler)
     application.add_exception_handler(BrainlyAPIRequestGeneralException, brainly_request_error_handler)
 
