@@ -18,6 +18,12 @@
   }
   ```
 
+### Rankings [`/brainly/ranking/`]
+* `GET /active_users` - get active users from Brainly rankings
+
+### Feed [`/brainly/feed/`]
+* `GET /` - get the Brainly feed
+
 ## Run
 
 *You must have `.env.debug` for debugging this app.*
@@ -28,8 +34,4 @@ BRAINLY_LEGACY_API_HOST = "https://znanija.com"
 BRAINLY_GRAPHQL_API_URL = "https://znanija.com/graphql/ru"
 BRAINLY_AUTH_TOKEN = "<auth-token>"
 ```
-
-```
-docker build -t znanija_tools_server .
-docker run -p 8040:8040 -d znanija_tools_server
-```
+Also please create `secret_constants.py` with **1 variable** - `AUTH_HEADER` in `test` to make tests work.

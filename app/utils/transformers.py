@@ -2,6 +2,7 @@ import re
 from app.constants import BRAINLY_SUBJECTS, DEFAULT_USER_AVATAR
 from app.brainly_api import from_id
 from app.models.users import TransformedGraphqlUser, TransformedLegacyUserWithBasicData
+from app.models.feed import TransformedFeedNode
 from . import filter_node_content
 
 
@@ -122,13 +123,39 @@ def transform_gql_user(node: dict) -> TransformedGraphqlUser:
     answer_count_by_subject: list[dict[str, dict | int]] = node.get('answerCountBySubject')
     answers_count = 0
 
-    for count in answer_count_by_subject:
-        answers_count += count['count']
+    if answer_count_by_subject is not None:
+        for count in answer_count_by_subject:
+            answers_count += count['count']
 
-        count['subject'] = count['subject']['name']
+            count['subject'] = count['subject']['name']
+
+        user.answers_count_by_subject = answer_count_by_subject
 
     user.has_special_ranks = len(node.get('specialRanks') or []) > 0
     user.answers_count = answers_count
-    user.answers_count_by_subject = answer_count_by_subject
 
     return user
+
+
+def transform_gql_feed_node(node: dict) -> TransformedFeedNode:
+    """Transform a GraphQL type `Question`/`Answer` from the feed query to a dict"""
+    transformed_node = TransformedFeedNode(
+        content=filter_node_content(node['content']),
+        is_reported=node['moderationItem'] is not None,
+        created=node['created'],
+        id=from_id(node['id']),
+        author=transform_gql_user(node['author']) if node['author'] is not None else None,
+        attachments=[attachment['url'] for attachment in node['attachments']]
+    )
+
+    if 'answers' in node: # node is `Question`
+        transformed_node.subject = node['subject']['name']
+        transformed_node.subject_id = from_id(node['subject']['id'])
+        transformed_node.answers = [
+            transform_gql_feed_node(answer) for answer in node['answers']['nodes']
+        ]
+    else: # node is `Answer`
+        transformed_node.is_confirmed = node['isConfirmed']
+        transformed_node.is_best = node['isBest']
+
+    return transformed_node

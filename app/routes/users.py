@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.models import GetBrainlyUsersPayload, SendMessageToUserPayload
-from app.brainly_api import legacy_api, graphql_api
+from app.brainly_api import legacy_api
 from app.utils.transformers import transform_legacy_user_with_basic_data
 
 

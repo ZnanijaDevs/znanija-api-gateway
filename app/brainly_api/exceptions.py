@@ -17,6 +17,9 @@ class BrainlyAPIRequestGeneralException(Exception):
 
     def exception_type_eq(self, exception_type: int) -> bool:
         """Check whether the exception type equals another one"""
+        if not isinstance(self.error_details, dict):
+            return False
+
         return self.error_details['exception_type'] == exception_type
 
 

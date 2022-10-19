@@ -4,3 +4,6 @@ _accounts.txt
 __old/
 fly.toml
 .env*
+.pytest_cache
+.coverage
+test/secret_constants.py

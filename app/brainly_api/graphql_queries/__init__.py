@@ -23,3 +23,43 @@ fragment UserWithAnswersCount on User {
     id
 }
 """
+
+GET_FEED_QUERY = """fragment AuthorData on User {
+  nick
+  id
+  specialRanks {name}
+  created
+  rank {name}
+  avatar {url}
+}
+
+query {
+  feed(first: 50, status: ALL) {
+    pageInfo {endCursor}
+    edges {
+      node {
+        ... on Question {
+          moderationItem {id}
+          subject {id name}
+          id
+          content
+          created
+          author {...AuthorData}
+          attachments {url}
+          answers {
+            nodes {
+                id
+              content
+              created
+              isConfirmed
+              isBest
+              author {...AuthorData}
+              moderationItem {id}
+              attachments {url}
+            }
+          }
+        }
+      }
+    }
+  }
+}"""
