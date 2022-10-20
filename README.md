@@ -40,5 +40,7 @@ AUTH_PASSWORD = "password (Basic auth)"
 BRAINLY_LEGACY_API_HOST = "https://znanija.com"
 BRAINLY_GRAPHQL_API_URL = "https://znanija.com/graphql/ru"
 BRAINLY_AUTH_TOKEN = "<auth-token>"
+BRAINLY_PROXY_HOST_URL="https://znanija.com" # CloudFlare must not protect this host
+BRAINLY_PROXY_AUTH_PASS="<base64-pass-to-proxy>"
 ```
 Also please create `secret_constants.py` with **1 variable** - `AUTH_HEADER` in `test` to make tests work.
