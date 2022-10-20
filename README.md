@@ -17,6 +17,13 @@
     "text": str
   }
   ```
+* `POST /{id}/ban` - ban a user.
+  ```py
+  {
+    "ban_type": int
+  }
+  ```
+* `POST /{id}/cancel_ban` - cancels a ban for a user.
 
 ### Rankings [`/brainly/ranking/`]
 * `GET /active_users` - get active users from Brainly rankings

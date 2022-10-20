@@ -4,6 +4,17 @@ from .exceptions import BrainlyAPIRequestGeneralException, QuestionDoesNotExistE
 from .api import Api
 
 
+class LegacyApiSuccessResponse:
+    protocol_version: str
+    data: Any
+    users_data: list[dict]
+
+    def __init__(self, response: dict):
+        self.protocol_version = response['protocol']
+        self.data = response['data']
+        self.users_data = response.get('users_data') or []
+
+
 class LegacyApi(Api):
     """
     Class that represents Brainly legacy API.
@@ -14,7 +25,7 @@ class LegacyApi(Api):
         api_method: str,
         http_method: str | None = 'get',
         data: Any | None = None
-    ) -> dict:
+    ) -> LegacyApiSuccessResponse:
         """Make a request to Brainly legacy API (private)"""
         r = await self._make_request(
             url=f"{self.legacy_api_url}/{api_method}",
@@ -25,9 +36,9 @@ class LegacyApi(Api):
         if r['success'] is False:
             raise BrainlyAPIRequestGeneralException(r, source='legacy_api')
 
-        return r
+        return LegacyApiSuccessResponse(r)
 
-    async def get_users(self, ids: list[int]) -> list[dict]:
+    async def get_users(self, ids: list[int]):
         """Get users by ID"""
         request_path = 'api_users/get_by_id'
         for id in ids:

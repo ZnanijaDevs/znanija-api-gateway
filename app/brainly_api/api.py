@@ -1,4 +1,5 @@
 from typing import Any
+from abc import ABC
 from http import HTTPStatus
 from httpx import AsyncClient as HttpClient
 from app.getenv import env
@@ -7,7 +8,7 @@ from .exceptions import BrainlyAPIRequestGeneralException
 
 MAX_BODY_LENGTH_IN_LOG = 400
 
-class Api:
+class Api(ABC):
     auth_token = env('BRAINLY_AUTH_TOKEN')
     legacy_api_url = f"{env('BRAINLY_LEGACY_API_HOST')}/api/28"
     graphql_api_url = env('BRAINLY_GRAPHQL_API_URL')
@@ -33,6 +34,7 @@ class Api:
         method: str,
         body: Any | None = None,
     ):
+        """Make a request to the specified `url` on the Brainly market"""
         try:
             r = await self._client.request(method, url, json=body)
 

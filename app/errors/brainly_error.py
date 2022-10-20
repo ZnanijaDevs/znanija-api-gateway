@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from app.brainly_api.exceptions import BrainlyAPIRequestGeneralException
@@ -26,4 +27,4 @@ async def brainly_request_error_handler(
         'detail': 'brainly_request_error',
         'exception_details': error_details,
         'exception_source': error_source
-    }, status_code=502)
+    }, status_code=HTTPStatus.BAD_GATEWAY)

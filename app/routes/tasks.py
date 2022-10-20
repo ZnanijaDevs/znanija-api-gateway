@@ -14,9 +14,9 @@ async def get_task(id: BRAINLY_ID):
     try:
         question = await legacy_api.get_question(id)
 
-        task = question['data']['task']
-        responses = question['data']['responses']
-        users_data = question['users_data']
+        task = question.data['task']
+        responses = question.data['responses']
+        users_data = question.users_data
 
         return {
             'task': transform_task_node(task, users_data),
@@ -32,8 +32,8 @@ async def get_task_log(id: BRAINLY_ID):
     try:
         question_log = await legacy_api.get_question_log(id)
 
-        log_entries = question_log['data']
-        users_data = question_log['users_data']
+        log_entries = question_log.data
+        users_data = question_log.users_data
 
         return [transform_log_entry(entry, users_data) for entry in log_entries]
     except QuestionDoesNotExistException:
