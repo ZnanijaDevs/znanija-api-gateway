@@ -29,3 +29,10 @@ class BanType(Enum):
 
 class BanUserPayload(BaseModel):
     ban_type: BanType
+
+
+class ModerationRankingType(Enum):
+    MODERATOR_DAILY = 'daily'
+    MODERATOR_WEEKLY = 'weekly'
+    MODERATOR_MONTHLY = 'monthly'
+    MODERATOR_QUARTERLY = 'quarterly'

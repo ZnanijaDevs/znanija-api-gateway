@@ -1,5 +1,5 @@
 import re
-from app.constants import BRAINLY_SUBJECTS, DEFAULT_USER_AVATAR
+from app.constants import BRAINLY_SUBJECTS, DEFAULT_USER_AVATAR, DELETED_USER_DATA
 from app.brainly_api import from_id
 from app.models.users import TransformedGraphqlUser, TransformedLegacyUserWithBasicData
 from app.models.feed import TransformedFeedNode
@@ -111,12 +111,18 @@ def transform_legacy_user_with_basic_data(node: dict) -> TransformedLegacyUserWi
 
 def transform_gql_user(node: dict) -> TransformedGraphqlUser:
     """Transform a GraphQL type `User` to a dict"""
+    if node is None: # user is deleted
+        return TransformedGraphqlUser(**DELETED_USER_DATA)
+
     user = TransformedGraphqlUser(
         id=from_id(node['id']),
         nick=node['nick'],
         avatar=node['avatar']['url'] if node['avatar'] else DEFAULT_USER_AVATAR,
         rank=node['rank']['name'] if node['rank'] else None,
         created=node['created'],
+        gender=node['gender'],
+        special_ranks=[rank['name'] for rank in node['specialRanks']],
+        is_deleted=False
     )
 
     # Calculate user answers

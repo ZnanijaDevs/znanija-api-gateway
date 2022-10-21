@@ -1,3 +1,22 @@
+BASIC_DATA_FRAGMENT = """fragment UserBasicData on User {
+    id
+    nick
+    avatar {url}
+    specialRanks {name}
+    rank {name}
+    created
+    gender
+} """
+
+GET_MODERATION_RANKING_QUERY = BASIC_DATA_FRAGMENT + """
+query GetModerationRanking($type: UserRankingTypes!) {
+  userRankings(rankingType: $type) {
+    place
+    points
+    user {...UserBasicData}
+  }
+}"""
+
 USER_DATA_FRAGMENT = """
 fragment UserData on User {
     id
@@ -5,6 +24,7 @@ fragment UserData on User {
     avatar {url}
     specialRanks {name}
     rank {name}
+    gender
     created
     answerCountBySubject {
         count
@@ -21,18 +41,11 @@ fragment UserWithAnswersCount on User {
     rank {name}
     created
     id
+    gender
 }
 """
 
-GET_FEED_QUERY = """fragment AuthorData on User {
-  nick
-  id
-  specialRanks {name}
-  created
-  rank {name}
-  avatar {url}
-}
-
+GET_FEED_QUERY = BASIC_DATA_FRAGMENT + """
 query {
   feed(first: 50, status: ALL) {
     pageInfo {endCursor}
@@ -44,7 +57,7 @@ query {
           id
           content
           created
-          author {...AuthorData}
+          author {...UserBasicData}
           attachments {url}
           answers {
             nodes {
@@ -53,7 +66,7 @@ query {
               created
               isConfirmed
               isBest
-              author {...AuthorData}
+              author {...UserBasicData}
               moderationItem {id}
               attachments {url}
             }

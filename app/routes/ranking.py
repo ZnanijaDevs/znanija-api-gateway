@@ -1,13 +1,28 @@
 from fastapi import APIRouter
 
 from app.brainly_api import graphql_api, to_id, from_id
+from app.models import ModerationRankingType
 from app.constants import DISALLOWED_RANKS_FOR_ACTIVE_USERS, MIN_ANSWERS_COUNT_FOR_ACTIVE_USER, \
     SUBJECT_IDS, RANKING_TYPES
-from app.brainly_api.graphql_queries import USER_WITH_ANSWERS_COUNT_FRAGMENT
+from app.brainly_api.graphql_queries import USER_WITH_ANSWERS_COUNT_FRAGMENT, \
+    GET_MODERATION_RANKING_QUERY
 from app.utils.transformers import transform_gql_user
 
 
 router = APIRouter(prefix='/brainly/ranking')
+
+
+@router.get('/moderators/{ranking_type}')
+async def get_moderator_daily_ranking(ranking_type: ModerationRankingType):
+    rankings_data = await graphql_api.query(GET_MODERATION_RANKING_QUERY, {
+        'type': ranking_type.name
+    })
+
+    rankings = [place | {
+        'user': transform_gql_user(place['user'])
+    } for place in rankings_data['userRankings']]
+
+    return rankings
 
 
 @router.get('/active_users')
