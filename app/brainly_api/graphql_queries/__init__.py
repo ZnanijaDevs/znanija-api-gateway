@@ -39,6 +39,7 @@ fragment UserWithAnswersCount on User {
     nick
     avatar {url}
     rank {name}
+    specialRanks {name}
     created
     id
     gender
