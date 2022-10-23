@@ -8,12 +8,11 @@ BASIC_DATA_FRAGMENT = """fragment UserBasicData on User {
     gender
 } """
 
-GET_MODERATION_RANKING_QUERY = BASIC_DATA_FRAGMENT + """
+GET_MODERATION_RANKING_QUERY = """
 query GetModerationRanking($type: UserRankingTypes!) {
   userRankings(rankingType: $type) {
-    place
     points
-    user {...UserBasicData}
+    user {id nick specialRanks {name}}
   }
 }"""
 

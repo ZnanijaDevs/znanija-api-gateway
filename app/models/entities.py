@@ -39,9 +39,10 @@ class ModeratorInModeratorsList(BaseModel):
 
 
 class PlaceInModeratorsRanking(BaseModel):
-    place: conint(gt=0)
     points: conint(gt=0)
-    user: TransformedGraphqlUser
+    user_id: str
+    user_nick: str
+    user_ranks: list[str]
 
 
 class TransformedFeedNode(BaseModel):

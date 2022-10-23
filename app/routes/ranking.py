@@ -20,11 +20,18 @@ async def get_moderator_daily_ranking(ranking_type: ModerationRankingType):
         'type': ranking_type.name
     })
 
-    rankings = [PlaceInModeratorsRanking(
-        user=transform_gql_user(place['user']),
-        points=place['points'],
-        place=place['place']
-    ) for place in rankings_data['userRankings']]
+    rankings: list[PlaceInModeratorsRanking] = []
+    for place in rankings_data['userRankings']:
+        moderator = place['user']
+        if moderator is None or len(moderator['specialRanks']) == 0:
+            continue
+
+        rankings.append(PlaceInModeratorsRanking(
+            points=place['points'],
+            user_id=place['user']['id'],
+            user_nick=moderator['nick'],
+            user_ranks=[rank['name'] for rank in moderator['specialRanks']]
+        ))
 
     return rankings
 
