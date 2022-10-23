@@ -1,8 +1,8 @@
 import re
 from app.constants import BRAINLY_SUBJECTS, DEFAULT_USER_AVATAR, DELETED_USER_DATA
 from app.brainly_api import from_id
-from app.models.users import TransformedGraphqlUser, TransformedLegacyUserWithBasicData
-from app.models.feed import TransformedFeedNode
+from app.models import TransformedGraphqlUser, TransformedLegacyUserWithBasicData, \
+    TransformedFeedNode
 from . import filter_node_content
 
 

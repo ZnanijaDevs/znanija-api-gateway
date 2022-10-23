@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi_cache.decorator import cache
 
 from app.models import BRAINLY_ID, CheckDeletedTasksPayload
 from app.brainly_api import legacy_api, graphql_api
@@ -10,6 +11,7 @@ router = APIRouter(prefix='/brainly/task')
 
 
 @router.get('/{id}')
+@cache(expire=3)
 async def get_task(id: BRAINLY_ID):
     try:
         question = await legacy_api.get_question(id)
@@ -28,6 +30,7 @@ async def get_task(id: BRAINLY_ID):
 
 
 @router.get('/log/{id}')
+@cache(expire=1)
 async def get_task_log(id: BRAINLY_ID):
     try:
         question_log = await legacy_api.get_question_log(id)
@@ -41,6 +44,7 @@ async def get_task_log(id: BRAINLY_ID):
 
 
 @router.post('/deleted_tasks')
+@cache(expire=1)
 async def check_deleted_tasks(payload: CheckDeletedTasksPayload):
     fetched_questions = await graphql_api.mapped_query_with_ids(
         payload.ids,

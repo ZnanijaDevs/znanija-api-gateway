@@ -20,20 +20,18 @@ http_client = HttpClient(
 )
 
 
-async def _request(path: str, method: str, data: Any | None = None) -> str:
+async def _request(path: str, method: str, data: Any | None = None):
     """Send a request to the legacy page on Znanija.com and returns a text of it"""
     try:
         http_client.cookies.clear()
 
         response = await http_client.request(method, path, data=data)
-        response_text = response.text
 
         print(f"\033[93m legacy pages request -> {method.upper()} {path}, {data} \033[0m")
 
         assert response.status_code != HTTPStatus.UNAUTHORIZED, f"{path} 401 Unauthorized error"
-        assert response_text != '', 'Invalid token'
 
-        return response_text
+        return response
     except Exception as exc:
         raise BrainlyAPIRequestGeneralException(str(exc), 'legacy_pages')
 
@@ -41,7 +39,9 @@ async def _request(path: str, method: str, data: Any | None = None) -> str:
 async def get_parsed_page(path: str) -> PyQuery:
     """Sends a request to the specified Brainly page, parses it and returns a document"""
     response = await _request(path, 'get')
-    return PyQuery(response)
+    assert response.text != '', 'no text in legacy page. perhaps, user is not authed'
+
+    return PyQuery(response.text)
 
 
 async def get_form_data_from_user_page(user_id: int, form_selector: str) -> dict:

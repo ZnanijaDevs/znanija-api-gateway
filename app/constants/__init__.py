@@ -15,3 +15,8 @@ DELETED_USER_DATA = {
     "special_ranks": [],
     "is_deleted": True
 }
+
+
+# Ranks
+SPAMOUTS_TEAM_RANKS = ['SpamOut', 'Старший Антиспамер', 'Антиспамер', 'Старший Спамаут']
+MODERATORS_TEAM_RANKS = ['Модератор', 'Старший Модератор Предмета', 'Старший Модератор']

@@ -1,7 +1,8 @@
 from fastapi import APIRouter
+from fastapi_cache.decorator import cache
 
 from app.brainly_api import graphql_api, to_id, from_id
-from app.models import ModerationRankingType
+from app.models import ModerationRankingType, PlaceInModeratorsRanking, TransformedGraphqlUser
 from app.constants import DISALLOWED_RANKS_FOR_ACTIVE_USERS, MIN_ANSWERS_COUNT_FOR_ACTIVE_USER, \
     SUBJECT_IDS, RANKING_TYPES
 from app.brainly_api.graphql_queries import USER_WITH_ANSWERS_COUNT_FRAGMENT, \
@@ -12,20 +13,24 @@ from app.utils.transformers import transform_gql_user
 router = APIRouter(prefix='/brainly/ranking')
 
 
-@router.get('/moderators/{ranking_type}')
+@router.get('/moderators/{ranking_type}', response_model=list[PlaceInModeratorsRanking])
+@cache(expire=3, namespace='get-moderator-daily-ranking')
 async def get_moderator_daily_ranking(ranking_type: ModerationRankingType):
     rankings_data = await graphql_api.query(GET_MODERATION_RANKING_QUERY, {
         'type': ranking_type.name
     })
 
-    rankings = [place | {
-        'user': transform_gql_user(place['user'])
-    } for place in rankings_data['userRankings']]
+    rankings = [PlaceInModeratorsRanking(
+        user=transform_gql_user(place['user']),
+        points=place['points'],
+        place=place['place']
+    ) for place in rankings_data['userRankings']]
 
     return rankings
 
 
-@router.get('/active_users')
+@router.get('/active_users', response_model=list[TransformedGraphqlUser])
+@cache(expire=60, namespace='get-active-users-from-rankings')
 async def get_active_users_from_rankings():
     rankings_query_pieces = ''
     for ranking_type in RANKING_TYPES:
@@ -62,7 +67,7 @@ async def get_active_users_from_rankings():
 
             active_users_ids.add(user_id)
 
-    users_data = await graphql_api.mapped_query_with_ids(
+    users_data: list[TransformedGraphqlUser] = await graphql_api.mapped_query_with_ids(
         list(active_users_ids),
         'user',
         '...UserWithAnswersCount',

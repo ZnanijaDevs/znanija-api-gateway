@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.models import GetBrainlyUsersPayload, SendMessageToUserPayload, BanUserPayload, \
-    BRAINLY_ID
+    BRAINLY_ID, TransformedLegacyUserWithBasicData
 from app.brainly_api import legacy_api, get_form_data_from_user_page, send_form
 from app.utils.transformers import transform_legacy_user_with_basic_data
 
@@ -9,7 +9,7 @@ from app.utils.transformers import transform_legacy_user_with_basic_data
 router = APIRouter(prefix='/brainly/users')
 
 
-@router.post('')
+@router.post('', response_model=list[TransformedLegacyUserWithBasicData])
 async def get_users(payload: GetBrainlyUsersPayload):
     users_data = await legacy_api.get_users(payload.ids)
     users = [transform_legacy_user_with_basic_data(user) for user in users_data.data]

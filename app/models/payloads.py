@@ -36,3 +36,9 @@ class ModerationRankingType(Enum):
     MODERATOR_WEEKLY = 'weekly'
     MODERATOR_MONTHLY = 'monthly'
     MODERATOR_QUARTERLY = 'quarterly'
+
+
+class ModerationTeam(Enum):
+    ALL = 'all'
+    SPAMOUTS = 'spamouts'
+    MODERATORS = 'moderators'
