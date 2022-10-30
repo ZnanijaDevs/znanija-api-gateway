@@ -11,7 +11,7 @@ from app.errors.http_exception import http_exception_handler
 from app.errors.brainly_error import brainly_request_error_handler
 from app.errors.server_error import internal_error_handler
 from app.getenv import env, is_production
-from app.routes import tasks, users, ranking, feed, homepage, moderators
+from app.routes import tasks, users, ranking, feed, homepage, moderators, reported_content
 from app.generate_openapi import generate_custom_openapi
 
 
@@ -52,6 +52,7 @@ def get_application() -> FastAPI:
     application.include_router(ranking.router)
     application.include_router(feed.router)
     application.include_router(moderators.router)
+    application.include_router(reported_content.router)
     application.add_api_route('/', homepage.homepage_route)
 
     application.openapi_schema = generate_custom_openapi(application)

@@ -13,7 +13,7 @@ def test_get_users(test_app):
 
 
 def test_ban_user(test_app):
-    BAN_TYPE = 2
+    BAN_TYPE = 5
 
     ban_response = test_app.post(f"/brainly/users/{USER_ID}/ban", json={
         'ban_type': BAN_TYPE

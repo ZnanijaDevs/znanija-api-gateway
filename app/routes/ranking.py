@@ -28,7 +28,7 @@ async def get_moderator_daily_ranking(ranking_type: ModerationRankingType):
 
         rankings.append(PlaceInModeratorsRanking(
             points=place['points'],
-            user_id=place['user']['id'],
+            user_id=from_id(place['user']['id']),
             user_nick=moderator['nick'],
             user_ranks=[rank['name'] for rank in moderator['specialRanks']]
         ))

@@ -16,7 +16,5 @@ DELETED_USER_DATA = {
     "is_deleted": True
 }
 
-
-# Ranks
-SPAMOUTS_TEAM_RANKS = ['SpamOut', 'Старший Антиспамер', 'Антиспамер', 'Старший Спамаут']
-MODERATORS_TEAM_RANKS = ['Модератор', 'Старший Модератор Предмета', 'Старший Модератор']
+SPAMOUTS_RANKS_REGEX = r"spamout|антиспамер|старший спамаут"
+EXCLUDE_MODERATORS_FROM_MODS_LIST = [3149887, 964920]

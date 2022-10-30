@@ -40,9 +40,14 @@ class ModeratorInModeratorsList(BaseModel):
 
 class PlaceInModeratorsRanking(BaseModel):
     points: conint(gt=0)
-    user_id: str
+    user_id: int
     user_nick: str
     user_ranks: list[str]
+
+
+class ReportedContentsCountBySubject(BaseModel):
+    subject_id: int
+    count: int
 
 
 class TransformedFeedNode(BaseModel):

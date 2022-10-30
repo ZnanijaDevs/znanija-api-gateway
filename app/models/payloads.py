@@ -19,12 +19,9 @@ class SendMessageToUserPayload(BaseModel):
 
 
 class BanType(Enum):
-    TUTORIAL = 1
-    FIFTEEN_MINUTES = 2
-    ONE_HOUR = 3
-    TWELVE_HOURS = 4
-    TWENTY_FOUR_HOURS = 5
-    FOURTY_EIGHT_HOURS = 6
+    ONE_DAY = 5
+    THREE_DAYS = 7
+    PERMANENT = 8
 
 
 class BanUserPayload(BaseModel):
