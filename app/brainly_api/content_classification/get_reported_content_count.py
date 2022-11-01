@@ -17,14 +17,16 @@ async def _call(subject_id: int):
     response = await session.get(f"?classified_by=abuse_report&subject_id={subject_id}")
     data = response.json()
 
+    assert 'count' in data, f"no count in the response: {data}"
+
     return ReportedContentsCountBySubject(subject_id=subject_id, count=data['count'])
 
 
 async def get_reported_content_count() -> list[ReportedContentsCountBySubject]:
     """
     Get the number of reported content for each subject.
-    This function will definitely be removed in the future, since the count of reported content will be available
-    in the GraphQL API.
+    This function will definitely be removed in the future, since the count of reported content
+    will be available in the GraphQL API.
     """
     results = await asyncio.gather(*[
         asyncio.ensure_future(_call(subject_id)) for subject_id in SUBJECT_IDS

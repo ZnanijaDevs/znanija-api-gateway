@@ -4,7 +4,7 @@ from fastapi_cache.decorator import cache
 from app.brainly_api import graphql_api, to_id, from_id
 from app.models import ModerationRankingType, PlaceInModeratorsRanking, TransformedGraphqlUser
 from app.constants import DISALLOWED_RANKS_FOR_ACTIVE_USERS, MIN_ANSWERS_COUNT_FOR_ACTIVE_USER, \
-    SUBJECT_IDS, RANKING_TYPES
+    SUBJECTS_IDS_FOR_ACTIVE_USERS, RANKING_TYPES
 from app.brainly_api.graphql_queries import USER_WITH_ANSWERS_COUNT_FRAGMENT, \
     GET_MODERATION_RANKING_QUERY
 from app.utils.transformers import transform_gql_user
@@ -41,7 +41,7 @@ async def get_moderator_daily_ranking(ranking_type: ModerationRankingType):
 async def get_active_users_from_rankings():
     rankings_query_pieces = ''
     for ranking_type in RANKING_TYPES:
-        for subject_id in SUBJECT_IDS:
+        for subject_id in SUBJECTS_IDS_FOR_ACTIVE_USERS:
             rankings_query_pieces += ''.join([
                 f"s{subject_id}s{ranking_type}: ",
                 f"userRankingBySubjectId(rankingType: {ranking_type},",
