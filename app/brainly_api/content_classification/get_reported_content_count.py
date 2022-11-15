@@ -10,11 +10,16 @@ session = httpx.AsyncClient(
     base_url='https://srv-content-classification.z-dn.net/ru/moderation_items/count',
     headers={
         'x-b-token-long': env('BRAINLY_AUTH_TOKEN')
-    }
+    },
+    verify=False,
+    timeout=12
 )
 
 async def _call(subject_id: int):
     response = await session.get(f"?classified_by=abuse_report&subject_id={subject_id}")
+
+    assert response.status_code == 200, f"fetching reported content count failed: {response.content.decode('utf-8')}"
+
     data = response.json()
 
     assert 'count' in data, f"no count in the response: {data}"
