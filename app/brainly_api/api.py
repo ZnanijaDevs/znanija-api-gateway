@@ -22,7 +22,7 @@ class Api(ABC):
                 'x-service-name': 'znanija_tools_proxy_backend',
             },
             cookies={'Zadanepl_cookie[Token][Long]': self.auth_token},
-            timeout=6,
+            timeout=25,
             follow_redirects=False,
             verify=False,
             http2=True

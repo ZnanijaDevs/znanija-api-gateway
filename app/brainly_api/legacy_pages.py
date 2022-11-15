@@ -12,6 +12,7 @@ from .exceptions import BrainlyAPIRequestGeneralException
 http_client = HttpClient(
     base_url=env('BRAINLY_PROXY_HOST_URL'),
     http2=True,
+    verify=False,
     headers={
         'authorization': f"basic {env('BRAINLY_PROXY_AUTH_PASS')}",
         'x-b-token-long': env('BRAINLY_AUTH_TOKEN'),
