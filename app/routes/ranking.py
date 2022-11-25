@@ -14,7 +14,7 @@ router = APIRouter(prefix='/brainly/ranking')
 
 
 @router.get('/moderators/{ranking_type}', response_model=list[PlaceInModeratorsRanking])
-@cache(expire=3, namespace='get-moderator-daily-ranking')
+@cache(expire=5, namespace='get-moderator-daily-ranking')
 async def get_moderator_daily_ranking(ranking_type: ModerationRankingType):
     rankings_data = await graphql_api.query(GET_MODERATION_RANKING_QUERY, {
         'type': ranking_type.name

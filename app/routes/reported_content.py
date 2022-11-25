@@ -9,6 +9,6 @@ router = APIRouter(prefix='/brainly/reported_content')
 
 
 @router.get('/count', response_model=list[ReportedContentsCountBySubject])
-@cache(expire=3)
+@cache(expire=5)
 async def get_reported_content_count():
     return await fetch_reported_content()

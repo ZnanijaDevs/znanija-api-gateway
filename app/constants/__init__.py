@@ -20,4 +20,5 @@ DELETED_USER_DATA = {
 }
 
 SPAMOUTS_RANKS_REGEX = r"spamout|антиспамер|старший спамаут"
+SPAMOUTS_AND_MODS_RANKS_REGEX = r"spamout|антиспамер|старший спамаут|модератор"
 EXCLUDE_MODERATORS_FROM_MODS_LIST = [3149887, 964920]
