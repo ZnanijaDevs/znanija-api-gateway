@@ -22,7 +22,7 @@ http_client = HttpClient(
 
 
 async def _request(path: str, method: str, data: Any | None = None):
-    """Send a request to the legacy page on Znanija.com and returns a text of it"""
+    """Send a request to the legacy page on Znanija.com"""
     try:
         http_client.cookies.clear()
 

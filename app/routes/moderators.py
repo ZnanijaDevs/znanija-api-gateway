@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from fastapi_cache.decorator import cache
 
 from app.brainly_api import get_parsed_page
-from app.constants import DEFAULT_USER_AVATAR, SPAMOUTS_RANKS_REGEX, EXCLUDE_MODERATORS_FROM_MODS_LIST, \
+from app.constants import DEFAULT_USER_AVATAR, EXCLUDE_MODERATORS_FROM_MODS_LIST, \
     SPAMOUTS_AND_MODS_RANKS_REGEX
 from app.models import ModeratorInModeratorsList
 

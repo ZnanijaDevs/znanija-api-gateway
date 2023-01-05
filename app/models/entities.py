@@ -24,11 +24,16 @@ class TransformedGraphqlUser(BaseModel):
     is_deleted: bool
 
 
-class TransformedLegacyUserWithBasicData(BaseModel):
+class LegacyUserWithBasicData(BaseModel):
     nick: str
     id: BRAINLY_USER_ID
     is_deleted: bool
     avatar: str | None = None
+
+
+class LegacyUser(LegacyUserWithBasicData):
+    gender: int
+    ranks: list[str]
 
 
 class ModeratorInModeratorsList(BaseModel):
@@ -50,7 +55,7 @@ class ReportedContentsCountBySubject(BaseModel):
     count: int
 
 
-class TransformedFeedNode(BaseModel):
+class FeedNode(BaseModel):
     is_reported: bool
     content: str
     author: TransformedGraphqlUser
@@ -59,6 +64,51 @@ class TransformedFeedNode(BaseModel):
     attachments: list[str]
     subject: str | None
     subject_id: int | None
-    answers: list[Any] | None
+    answers: list["FeedNode"] | None
     is_best: bool | None
     is_confirmed: bool | None
+
+
+class LegacyTaskNode(BaseModel):
+    author: LegacyUser
+    attachments: list[str]
+    full_content: str
+    filtered_content: str
+    short_content: str
+    has_attachments: bool
+    created: str
+    id: int
+    is_deleted: bool
+    is_reported: bool
+
+
+class LegacyAnswer(LegacyTaskNode):
+    is_best: bool
+    is_approved: bool
+    is_to_correct: bool
+
+
+class LegacyQuestion(LegacyTaskNode):
+    link: str
+    points: int
+    subject: str | None
+    subject_id: int | None
+    answers: list[LegacyAnswer]
+    answers_count: int
+    can_answer: bool
+
+
+class DescriptionInEntryInTaskLog(TypedDict):
+    text: str
+    title: str
+
+
+class EntryInTaskLog(BaseModel):
+    text: str
+    warn: bool
+    type: str
+    time: str
+    date: str
+    descriptions: list[DescriptionInEntryInTaskLog]
+    owner: LegacyUser | None = None
+    user: LegacyUser | None = None

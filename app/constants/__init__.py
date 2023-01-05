@@ -18,6 +18,7 @@ DELETED_USER_DATA = {
     "special_ranks": [],
     "is_deleted": True
 }
+DELETED_ACCOUNT_NICK = 'Аккаунт удален'
 
 SPAMOUTS_RANKS_REGEX = r"spamout|антиспамер|старший спамаут"
 SPAMOUTS_AND_MODS_RANKS_REGEX = r"spamout|антиспамер|старший спамаут|модератор"

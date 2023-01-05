@@ -46,8 +46,8 @@ fragment UserWithAnswersCount on User {
 """
 
 GET_FEED_QUERY = BASIC_DATA_FRAGMENT + """
-query {
-  feed(first: 50, status: ALL) {
+query($before: ID) {
+  feed(first: 50, status: ALL, before: $before) {
     pageInfo {endCursor}
     edges {
       node {

@@ -31,7 +31,7 @@ def get_application() -> FastAPI:
         debug=is_production is False,
         dependencies=[Depends(auth_middleware)],
         docs_url='/documentation',
-        openapi_url='/documentation/openapi',
+        openapi_url='/documentation/openapi.json',
     )
 
     application.add_middleware(

@@ -7,8 +7,9 @@ def filter_node_content(content: str) -> str:
     filtered_content = content
 
     replacements = [
+        (r"<br\s\/>", '\n'),
         (r"<\/?\w+\s?\/?>", ''),
-        (r"\n{2,}", '\n'),
+        (r"\n{2,}|\n\s*\n", '\n'),
         (r"^(\s|\n)|(\s?\n)$", '')
     ]
 

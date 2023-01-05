@@ -1,35 +1,27 @@
 from fastapi import APIRouter
 from fastapi_cache.decorator import cache
 
-from app.models import BRAINLY_ID, CheckDeletedTasksPayload
+from app.models import BRAINLY_ID, CheckDeletedTasksPayload, EntryInTaskLog, LegacyQuestion
 from app.brainly_api import legacy_api, graphql_api
 from app.brainly_api.exceptions import QuestionDoesNotExistException
-from app.utils.transformers import transform_task_node, transform_log_entry
+from app.utils.transformers import transform_task_log_entries, transform_task
 
 
-router = APIRouter(prefix='/brainly/task')
+router = APIRouter(prefix='/brainly/tasks')
 
 
-@router.get('/{id}')
+@router.get('/{id}', response_model=LegacyQuestion | None)
 @cache(expire=3)
 async def get_task(id: BRAINLY_ID):
     try:
         question = await legacy_api.get_question(id)
 
-        task = question.data['task']
-        responses = question.data['responses']
-        users_data = question.users_data
-
-        return {
-            'task': transform_task_node(task, users_data),
-            'responses': [transform_task_node(response, users_data) for response in responses],
-            'responses_count': len(responses)
-        }
+        return transform_task(question.data, question.users_data)
     except QuestionDoesNotExistException:
         return None
 
 
-@router.get('/log/{id}')
+@router.get('/{id}/log', response_model=list[EntryInTaskLog])
 @cache(expire=1)
 async def get_task_log(id: BRAINLY_ID):
     try:
@@ -38,19 +30,19 @@ async def get_task_log(id: BRAINLY_ID):
         log_entries = question_log.data
         users_data = question_log.users_data
 
-        return [transform_log_entry(entry, users_data) for entry in log_entries]
+        return transform_task_log_entries(log_entries, users_data)
     except QuestionDoesNotExistException:
         return []
 
 
-@router.post('/deleted_tasks')
+@router.post('/check_deleted', response_model=list[bool])
 @cache(expire=1)
 async def check_deleted_tasks(payload: CheckDeletedTasksPayload):
     fetched_questions = await graphql_api.mapped_query_with_ids(
         payload.ids,
         'question',
         'id',
-        transform_entry=lambda question: {'is_deleted': question is None},
+        transform_entry=lambda question: question is None,
     )
 
     return fetched_questions

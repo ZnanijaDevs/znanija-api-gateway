@@ -74,7 +74,7 @@ class LegacyApi(Api):
             'user_id': user_id
         })
 
-        conversation_id = conversation['data']['conversation_id']
+        conversation_id = conversation.data['conversation_id']
 
         return await self._request('api_messages/send', 'post', {
             'content': text,
