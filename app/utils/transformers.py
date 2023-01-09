@@ -7,6 +7,7 @@ from . import filter_node_content
 
 
 def get_subject_by_id(id: int) -> str:
+    """Get Brainly subject by id"""
     subject_id = str(id)
 
     for subject in BRAINLY_SUBJECTS:
@@ -15,6 +16,7 @@ def get_subject_by_id(id: int) -> str:
 
 
 def transform_task_log_entries(entries: list[dict], users_data: list[dict]) -> list[EntryInTaskLog]:
+    """Transform log entries to a list of EntryInTaskLog classes"""
     def find_user(id: int) -> dict:
         for user in users_data:
             if user['id'] != id:
@@ -55,7 +57,7 @@ def transform_task_log_entries(entries: list[dict], users_data: list[dict]) -> l
 
 
 def transform_legacy_user_with_basic_data(node: dict) -> LegacyUserWithBasicData:
-    """Transform a legacy `User` with basic data only to a dict"""
+    """Transform a legacy User with basic data only to LegacyUserWithBasicData class"""
     return LegacyUserWithBasicData(
         nick=node['nick'],
         id=node['id'],
@@ -65,7 +67,7 @@ def transform_legacy_user_with_basic_data(node: dict) -> LegacyUserWithBasicData
 
 
 def transform_legacy_user(node: dict) -> LegacyUser:
-    """Transform a legacy `User` to a dict"""
+    """Transform a legacy User to a LegacyUser class"""
     return LegacyUser(
         id=node['id'],
         nick=node['nick'],
@@ -77,7 +79,7 @@ def transform_legacy_user(node: dict) -> LegacyUser:
 
 
 def transform_gql_user(node: dict) -> TransformedGraphqlUser:
-    """Transform a GraphQL type `User` to a dict"""
+    """Transform a GraphQL type User to a dict"""
     if node is None: # user is deleted
         return TransformedGraphqlUser(**DELETED_USER_DATA)
 
@@ -111,7 +113,7 @@ def transform_gql_user(node: dict) -> TransformedGraphqlUser:
 
 
 def transform_gql_feed_node(node: dict) -> FeedNode:
-    """Transform a GraphQL type `Question`/`Answer` from the feed query to a dict"""
+    """Transform a GraphQL type Question/Answer from the feed query to FeedNode"""
     transformed_node = FeedNode(
         content=filter_node_content(node['content']),
         is_reported=node['moderationItem'] is not None,
@@ -135,6 +137,7 @@ def transform_gql_feed_node(node: dict) -> FeedNode:
 
 
 def transform_task_node(node: dict, users_data: list[dict]) -> dict:
+    """Transform a node in the task data to a dict"""
     is_answer = 'responses' not in node
     node_settings = node['settings']
     node_content = node['content']
@@ -175,6 +178,7 @@ def transform_task_node(node: dict, users_data: list[dict]) -> dict:
 
 
 def transform_task(node: dict, users_data: list[dict]) -> LegacyQuestion:
+    """Transform a legacy task data to a LegacyQuestion class"""
     task = node['task']
     responses = node['responses']
 
