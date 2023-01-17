@@ -12,6 +12,13 @@ class BanType(Enum):
     PERMANENT = 8
 
 
+class ModerationRankingType(Enum):
+    MODERATOR_DAILY = "daily"
+    MODERATOR_WEEKLY = "weekly"
+    MODERATOR_MONTHLY = "monthly"
+    MODERATOR_QUARTERLY = "quarterly"
+
+
 class AnswersCountBySubject(TypedDict):
     count: int
     subject: str

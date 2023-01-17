@@ -1,7 +1,7 @@
 from .payloads import CheckDeletedTasksPayload, SendMessageToUserPayload, BanUserPayload
 from .entities import BanType, AnswersCountBySubject, TransformedGraphqlUser, LegacyUserWithBasicData, \
     LegacyUser, ModeratorInModeratorsList, PlaceInModeratorsRanking, ReportedContentsCountBySubject, \
-    LegacyAnswer, LegacyQuestion, EntryInTaskLog
+    LegacyAnswer, LegacyQuestion, EntryInTaskLog, BRAINLY_ID, FeedNode, ModerationRankingType
 from .responses import BanUserResponse, CancelBanResponse, SendMessageToUserResponse, GetFeedResponse
 
 
@@ -23,5 +23,8 @@ __all__ = [
     "ReportedContentsCountBySubject",
     "LegacyAnswer",
     "LegacyQuestion",
-    "EntryInTaskLog"
+    "EntryInTaskLog",
+    "FeedNode",
+    "ModerationRankingType",
+    "BRAINLY_ID"
 ]
