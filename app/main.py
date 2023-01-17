@@ -15,7 +15,7 @@ from app.routes import tasks, users, ranking, feed, homepage, moderators, report
 from app.generate_openapi import generate_custom_openapi
 
 
-rollbar.init(env('ROLLBAR_ACCESS_TOKEN'))
+rollbar.init(env("ROLLBAR_ACCESS_TOKEN"))
 
 
 def on_startup():
@@ -26,22 +26,22 @@ def get_application() -> FastAPI:
     print(f"Starting the application, is production: {is_production}")
 
     application = FastAPI(
-        title=env('APP_NAME'),
-        version=env('APP_VERSION'),
+        title=env("APP_NAME"),
+        version=env("APP_VERSION"),
         debug=is_production is False,
         dependencies=[Depends(auth_middleware)],
-        docs_url='/documentation',
-        openapi_url='/documentation/openapi.json',
+        docs_url="/documentation",
+        openapi_url="/documentation/openapi.json",
     )
 
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=['*'],
-        allow_methods=['*'],
-        allow_headers=['*'],
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
-    application.add_event_handler('startup', on_startup)
+    application.add_event_handler("startup", on_startup)
 
     application.add_exception_handler(HTTPException, http_exception_handler)
     application.add_exception_handler(BrainlyAPIRequestGeneralException, brainly_request_error_handler)
@@ -53,7 +53,7 @@ def get_application() -> FastAPI:
     application.include_router(feed.router)
     application.include_router(moderators.router)
     application.include_router(reported_content.router)
-    application.add_api_route('/', homepage.homepage_route)
+    application.add_api_route("/", homepage.homepage_route)
 
     application.openapi_schema = generate_custom_openapi(application)
 

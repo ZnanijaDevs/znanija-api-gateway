@@ -10,9 +10,9 @@ class LegacyApiSuccessResponse:
     users_data: list[dict]
 
     def __init__(self, response: dict):
-        self.protocol_version = response['protocol']
-        self.data = response['data']
-        self.users_data = response.get('users_data') or []
+        self.protocol_version = response["protocol"]
+        self.data = response["data"]
+        self.users_data = response.get("users_data") or []
 
 
 class LegacyApi(Api):
@@ -23,7 +23,7 @@ class LegacyApi(Api):
     async def _request(
         self,
         api_method: str,
-        http_method: str | None = 'get',
+        http_method: str | None = "get",
         data: Any | None = None
     ) -> LegacyApiSuccessResponse:
         """Make a request to Brainly legacy API (private)"""
@@ -33,14 +33,14 @@ class LegacyApi(Api):
             body=data
         )
 
-        if r['success'] is False:
-            raise BrainlyAPIRequestGeneralException(r, source='legacy_api')
+        if r["success"] is False:
+            raise BrainlyAPIRequestGeneralException(r, source="legacy_api")
 
         return LegacyApiSuccessResponse(r)
 
     async def get_users(self, ids: list[int]):
         """Get users by ID"""
-        request_path = 'api_users/get_by_id'
+        request_path = "api_users/get_by_id"
         for id in ids:
             request_path += f"{'?' if request_path.endswith('id') else '&'}id[]={id}"
 
@@ -70,15 +70,16 @@ class LegacyApi(Api):
 
     async def send_message(self, user_id: int, text: str):
         """Send a message to Brainly user"""
-        conversation = await self._request('api_messages/check', 'post', {
-            'user_id': user_id
+        conversation = await self._request("api_messages/check", "post", {
+            "user_id": user_id
         })
 
-        conversation_id = conversation.data['conversation_id']
+        conversation_id = conversation.data["conversation_id"]
 
-        return await self._request('api_messages/send', 'post', {
-            'content': text,
-            'conversation_id': conversation_id
+        return await self._request("api_messages/send", "post", {
+            "content": text,
+            "conversation_id": conversation_id
         })
+
 
 legacy_api = LegacyApi()

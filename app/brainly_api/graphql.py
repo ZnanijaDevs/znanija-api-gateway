@@ -18,32 +18,32 @@ class GraphqlApi(Api):
         """Execute a GraphQL query"""
         r = await self._make_request(
             self.graphql_api_url,
-            'POST',
-            {'query': query.strip(), 'variables': variables}
+            "POST",
+            {"query": query.strip(), "variables": variables}
         )
 
-        if 'errors' in r:
-            raise BrainlyAPIRequestGeneralException(r['errors'], 'graphql')
+        if "errors" in r:
+            raise BrainlyAPIRequestGeneralException(r["errors"], "graphql")
 
-        return r['data']
+        return r["data"]
 
     async def mapped_query_with_ids(
         self,
         ids: list[int],
         map_prefix: str,
         body: str,
-        transform_entry: Callable[dict, dict],
-        extra_query: str = ''
+        transform_entry: Callable[dict, list[dict]],
+        extra_query: str = ""
     ) -> list[dict]:
         """Make a mapped GraphQL query"""
         if len(ids) == 0:
             return []
 
-        query = extra_query + ' query {'
+        query = extra_query + " query {"
         for id in ids:
-            query += f"_{id}: {map_prefix}(id: \"{to_id(id, map_prefix)}\") " + '{' + body + '} '
+            query += f"_{id}: {map_prefix}(id: \"{to_id(id, map_prefix)}\") " + "{" + body + "} "
 
-        query += ' }'
+        query += " }"
 
         data = await self.query(query)
         results = []
@@ -52,10 +52,11 @@ class GraphqlApi(Api):
             transformed_entry = transform_entry(item)
 
             if isinstance(transformed_entry, dict):
-                transformed_entry['id'] = int(key.replace('_', ''))
+                transformed_entry["id"] = int(key.replace("_", ""))
 
             results.append(transformed_entry)
 
         return results
+
 
 graphql_api = GraphqlApi()

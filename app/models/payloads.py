@@ -1,8 +1,5 @@
-from enum import Enum
-from pydantic import BaseModel, conint, conlist, constr
-
-
-BRAINLY_ID = conint(gt=0, lt=1_000_000_000)
+from pydantic import BaseModel, conlist, constr
+from .entities import BRAINLY_ID, BanType
 
 
 class CheckDeletedTasksPayload(BaseModel):
@@ -14,18 +11,5 @@ class SendMessageToUserPayload(BaseModel):
     text: constr(max_length=500, min_length=1)
 
 
-class BanType(Enum):
-    ONE_DAY = 5
-    THREE_DAYS = 7
-    PERMANENT = 8
-
-
 class BanUserPayload(BaseModel):
     ban_type: BanType
-
-
-class ModerationRankingType(Enum):
-    MODERATOR_DAILY = 'daily'
-    MODERATOR_WEEKLY = 'weekly'
-    MODERATOR_MONTHLY = 'monthly'
-    MODERATOR_QUARTERLY = 'quarterly'

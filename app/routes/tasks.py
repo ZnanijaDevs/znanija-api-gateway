@@ -7,10 +7,10 @@ from app.brainly_api.exceptions import QuestionDoesNotExistException
 from app.utils.transformers import transform_task_log_entries, transform_task
 
 
-router = APIRouter(prefix='/brainly/tasks')
+router = APIRouter(prefix="/brainly/tasks")
 
 
-@router.get('/{id}', response_model=LegacyQuestion | None)
+@router.get("/{id}", response_model=LegacyQuestion | None)
 @cache(expire=3)
 async def get_task(id: BRAINLY_ID):
     try:
@@ -21,7 +21,7 @@ async def get_task(id: BRAINLY_ID):
         return None
 
 
-@router.get('/{id}/log', response_model=list[EntryInTaskLog])
+@router.get("/{id}/log", response_model=list[EntryInTaskLog])
 @cache(expire=1)
 async def get_task_log(id: BRAINLY_ID):
     try:
@@ -35,13 +35,13 @@ async def get_task_log(id: BRAINLY_ID):
         return []
 
 
-@router.post('/check_deleted', response_model=list[bool])
+@router.post("/check_deleted", response_model=list[bool])
 @cache(expire=1)
 async def check_deleted_tasks(payload: CheckDeletedTasksPayload):
     fetched_questions = await graphql_api.mapped_query_with_ids(
         payload.ids,
-        'question',
-        'id',
+        "question",
+        "id",
         transform_entry=lambda question: question is None,
     )
 

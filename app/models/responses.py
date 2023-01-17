@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from .payloads import BanType
-from .entities import FeedNode
+from .entities import BanType, FeedNode
 
 
 class BanUserResponse(BaseModel):

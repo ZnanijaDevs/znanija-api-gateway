@@ -8,9 +8,9 @@ async def http_exception_handler(_: Request, exc: HTTPException) -> JSONResponse
 
     return JSONResponse(
         content={
-            'detail': exc.detail,
-            'status': status_code
+            "detail": exc.detail,
+            "status": status_code
         },
         status_code=status_code,
-        headers=getattr(exc, 'headers', None)
+        headers=getattr(exc, "headers", None)
     )

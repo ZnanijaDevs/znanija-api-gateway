@@ -11,5 +11,5 @@ async def internal_error_handler(request: Request, exc: Exception) -> JSONRespon
     logging.error(exc)
 
     return JSONResponse({
-        'detail': 'internal_server_error'
+        "detail": "internal_server_error"
     }, status_code=HTTPStatus.INTERNAL_SERVER_ERROR)

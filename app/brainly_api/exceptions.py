@@ -2,7 +2,7 @@ from typing import Any
 
 
 class BrainlyAPIRequestGeneralException(Exception):
-    error_details: list[Any] | str = ''
+    error_details: list[Any] | str = ""
     source: str
 
     def __init__(
@@ -20,7 +20,7 @@ class BrainlyAPIRequestGeneralException(Exception):
         if not isinstance(self.error_details, dict):
             return False
 
-        return self.error_details['exception_type'] == exception_type
+        return self.error_details["exception_type"] == exception_type
 
 
 class QuestionDoesNotExistException(Exception):

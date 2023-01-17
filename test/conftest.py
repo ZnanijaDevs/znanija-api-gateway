@@ -11,7 +11,7 @@ def get_test_app():
     client = TestClient(app)
 
     client.headers = {
-        'authorization': AUTH_HEADER
+        "authorization": AUTH_HEADER
     }
 
     return client
@@ -23,6 +23,6 @@ def cache_setup(request):
     return True
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def test_app():
     yield get_test_app()

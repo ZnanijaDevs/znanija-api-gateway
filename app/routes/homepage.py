@@ -5,9 +5,9 @@ from app.templates import templates
 from app.getenv import is_production
 
 
-@cache(expire=30, namespace='server-health', coder=TemplatesCoder)
+@cache(expire=30, namespace="server-health", coder=TemplatesCoder)
 async def homepage_route(request: Request):
-    return templates.TemplateResponse('index.html', {
-        'request': request,
-        'is_production': is_production
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "is_production": is_production
     })

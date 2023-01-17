@@ -1,8 +1,15 @@
+from enum import Enum
 from typing import TypedDict
 from pydantic import BaseModel, conint
 
 
-BRAINLY_USER_ID = conint(ge=1, lt=100_000_000_000)
+BRAINLY_ID = conint(ge=1, lt=100_000_000_000)
+
+
+class BanType(Enum):
+    ONE_DAY = 5
+    THREE_DAYS = 7
+    PERMANENT = 8
 
 
 class AnswersCountBySubject(TypedDict):
@@ -26,7 +33,7 @@ class TransformedGraphqlUser(BaseModel):
 
 class LegacyUserWithBasicData(BaseModel):
     nick: str
-    id: BRAINLY_USER_ID
+    id: BRAINLY_ID
     is_deleted: bool
     avatar: str | None = None
 
@@ -37,7 +44,7 @@ class LegacyUser(LegacyUserWithBasicData):
 
 
 class ModeratorInModeratorsList(BaseModel):
-    id: BRAINLY_USER_ID
+    id: BRAINLY_ID
     avatar: str
     nick: str
     ranks: list[str]

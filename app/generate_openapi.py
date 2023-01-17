@@ -9,39 +9,39 @@ def generate_custom_openapi(app: FastAPI):
         version=app.version,
         routes=app.routes,
         servers=[
-            {'url': 'https://tools.br-helper.com'},
-            {'url': 'http://localhost:8040'}
+            {"url": "https://tools.br-helper.com"},
+            {"url": "http://localhost:8040"}
         ],
     )
 
-    schema['tags'] = []
-    schema['security'] = {'basicAuth': []}
-    schema['components'].update({
-        'securitySchemes': {
-            'basicAuth': {
-                'type': 'http',
-                'scheme': 'basic'
+    schema["tags"] = []
+    schema["security"] = {"basicAuth": []}
+    schema["components"].update({
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
             }
         }
     })
 
-    for path, path_endpoint in schema['paths'].items():
-        tag = '.'.join(path.split('/')[1:3])
+    for path, path_endpoint in schema["paths"].items():
+        tag = ".".join(path.split("/")[1:3])
 
-        schema['tags'].append({ 'name': tag })
+        schema["tags"].append({"name": tag})
 
         updated_endpoint = path_endpoint
         for method, route_by_method in updated_endpoint.items():
             parameters = []
-            for parameter in route_by_method['parameters']:
-                if parameter['name'] != 'authorization':
+            for parameter in route_by_method["parameters"]:
+                if parameter["name"] != "authorization":
                     parameters.append(parameter)
 
-            route_by_method['parameters'] = parameters
-            route_by_method['tags'] = [tag]
+            route_by_method["parameters"] = parameters
+            route_by_method["tags"] = [tag]
 
             updated_endpoint[method] = route_by_method
 
-        schema['paths'][path] = updated_endpoint
+        schema["paths"][path] = updated_endpoint
 
     return schema
