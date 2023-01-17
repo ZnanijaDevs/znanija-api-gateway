@@ -6,7 +6,7 @@ from app.utils.transformers import transform_gql_feed_node
 from app.models import GetFeedResponse
 
 
-router = APIRouter(prefix="/brainly/feed")
+router = APIRouter(prefix="/feed")
 
 
 @router.get("", response_model=GetFeedResponse, response_model_exclude_none=True)

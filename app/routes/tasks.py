@@ -7,7 +7,7 @@ from app.brainly_api.exceptions import QuestionDoesNotExistException
 from app.utils.transformers import transform_task_log_entries, transform_task
 
 
-router = APIRouter(prefix="/brainly/tasks")
+router = APIRouter(prefix="/tasks")
 
 
 @router.get("/{id}", response_model=LegacyQuestion | None)

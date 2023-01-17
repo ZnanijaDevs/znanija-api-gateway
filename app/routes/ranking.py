@@ -10,7 +10,7 @@ from app.brainly_api.graphql_queries import USER_WITH_ANSWERS_COUNT_FRAGMENT, \
 from app.utils.transformers import transform_gql_user
 
 
-router = APIRouter(prefix="/brainly/ranking")
+router = APIRouter(prefix="/ranking")
 
 
 @router.get("/moderators/{ranking_type}", response_model=list[PlaceInModeratorsRanking])

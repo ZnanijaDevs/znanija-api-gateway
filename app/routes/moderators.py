@@ -8,7 +8,7 @@ from app.constants import DEFAULT_USER_AVATAR, EXCLUDE_MODERATORS_FROM_MODS_LIST
 from app.models import ModeratorInModeratorsList
 
 
-router = APIRouter(prefix="/brainly/moderators")
+router = APIRouter(prefix="/moderators")
 
 
 @router.get("", response_model=list[ModeratorInModeratorsList])

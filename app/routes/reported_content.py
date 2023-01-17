@@ -5,7 +5,7 @@ from app.brainly_api import get_reported_content_count as fetch_reported_content
 from app.models import ReportedContentsCountBySubject
 
 
-router = APIRouter(prefix="/brainly/reported_content")
+router = APIRouter(prefix="/reported_content")
 
 
 @router.get("/count", response_model=list[ReportedContentsCountBySubject])

@@ -22,7 +22,7 @@ def generate_custom_openapi(app: FastAPI):
     })
 
     for path, path_endpoint in schema["paths"].items():
-        tag = ".".join(path.split("/")[1:3])
+        tag = path.split("/")[1]
 
         schema["tags"].append({"name": tag})
 

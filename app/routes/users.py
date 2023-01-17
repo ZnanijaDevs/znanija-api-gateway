@@ -7,7 +7,7 @@ from app.brainly_api import legacy_api, get_form_data_from_user_page, send_form
 from app.utils.transformers import transform_legacy_user_with_basic_data
 
 
-router = APIRouter(prefix="/brainly/users")
+router = APIRouter(prefix="/users")
 
 
 @router.get("", response_model=list[LegacyUserWithBasicData])
