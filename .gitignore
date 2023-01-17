@@ -7,3 +7,4 @@ fly.toml
 .pytest_cache
 .coverage
 test/secret_constants.py
+.venv
