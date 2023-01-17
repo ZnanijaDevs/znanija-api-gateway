@@ -20,7 +20,7 @@ class Api(ABC):
         self._client = HttpClient(
             headers={
                 "x-b-token-long": self.auth_token,
-                "x-service-name": "znanija_tools_proxy_backend",
+                "x-service-name": "znanija_api_gateway_backend"
             },
             cookies={"Zadanepl_cookie[Token][Long]": self.auth_token},
             timeout=25,

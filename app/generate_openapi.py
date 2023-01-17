@@ -7,11 +7,7 @@ def generate_custom_openapi(app: FastAPI):
     schema = get_openapi(
         title=app.title,
         version=app.version,
-        routes=app.routes,
-        servers=[
-            {"url": "https://tools.br-helper.com"},
-            {"url": "http://localhost:8040"}
-        ],
+        routes=app.routes
     )
 
     schema["tags"] = []

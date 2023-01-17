@@ -19,6 +19,6 @@ async def auth_middleware(authorization: str | None = Header(default=None)):
             status_code=401,
             detail="not_authed",
             headers={
-                "WWW-Authenticate": "Basic realm=\"Znanija Tools\", charset=\"UTF-8\""
+                "WWW-Authenticate": "Basic realm=\"Znanija API Gateway\", charset=\"UTF-8\""
             }
         )

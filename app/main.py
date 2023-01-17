@@ -26,8 +26,7 @@ def get_application() -> FastAPI:
     print(f"Starting the application, is production: {is_production}")
 
     application = FastAPI(
-        title=env("APP_NAME"),
-        version=env("APP_VERSION"),
+        title="Znanija API Gateway",
         debug=is_production is False,
         dependencies=[Depends(auth_middleware)],
         docs_url="/documentation",
