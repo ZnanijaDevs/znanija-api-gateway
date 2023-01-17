@@ -8,3 +8,4 @@ fly.toml
 .coverage
 test/secret_constants.py
 .venv
+poetry.lock
