@@ -4,7 +4,7 @@ from fastapi_cache.decorator import cache
 from app.models import BRAINLY_ID, CheckDeletedTasksPayload, EntryInTaskLog, LegacyQuestion
 from app.brainly_api import legacy_api, graphql_api
 from app.brainly_api.exceptions import QuestionDoesNotExistException
-from app.utils.transformers import transform_task_log_entries, transform_task
+from app.util import transform_task_log_entries, transform_legacy_task
 
 
 router = APIRouter(prefix="/tasks")
@@ -16,7 +16,7 @@ async def get_task(id: BRAINLY_ID):
     try:
         question = await legacy_api.get_question(id)
 
-        return transform_task(question.data, question.users_data)
+        return transform_legacy_task(question.data, question.users_data)
     except QuestionDoesNotExistException:
         return None
 

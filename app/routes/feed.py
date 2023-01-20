@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from app.brainly_api import graphql_api
 from app.brainly_api.graphql_queries import GET_FEED_QUERY
-from app.utils.transformers import transform_gql_feed_node
+from app.util import transform_gql_feed_node
 from app.models import GetFeedResponse
 
 

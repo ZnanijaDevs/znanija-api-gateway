@@ -4,7 +4,7 @@ from pydantic import conlist
 from app.models import SendMessageToUserPayload, BanUserPayload, BRAINLY_ID, LegacyUserWithBasicData, \
     BanUserResponse, CancelBanResponse, SendMessageToUserResponse
 from app.brainly_api import legacy_api, get_form_data_from_user_page, send_form
-from app.utils.transformers import transform_legacy_user_with_basic_data
+from app.util import transform_legacy_user_with_basic_data
 
 
 router = APIRouter(prefix="/users")

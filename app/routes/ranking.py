@@ -7,7 +7,7 @@ from app.constants import DISALLOWED_RANKS_FOR_ACTIVE_USERS, MIN_ANSWERS_COUNT_F
     SUBJECTS_IDS_FOR_ACTIVE_USERS, RANKING_TYPES
 from app.brainly_api.graphql_queries import USER_WITH_ANSWERS_COUNT_FRAGMENT, \
     GET_MODERATION_RANKING_QUERY
-from app.utils.transformers import transform_gql_user
+from app.util import transform_gql_user
 
 
 router = APIRouter(prefix="/ranking")

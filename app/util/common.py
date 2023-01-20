@@ -1,4 +1,5 @@
 import re
+from app.constants import BRAINLY_SUBJECTS
 
 
 def filter_node_content(content: str) -> str:
@@ -18,3 +19,12 @@ def filter_node_content(content: str) -> str:
     filtered_content = filtered_content.strip()
 
     return filtered_content
+
+
+def get_subject_by_id(id: int) -> str:
+    """Get Brainly subject by id"""
+    subject_id = str(id)
+
+    for subject in BRAINLY_SUBJECTS:
+        if subject["id"] == subject_id:
+            return subject["name"]
