@@ -9,3 +9,4 @@ fly.toml
 test/secret_constants.py
 .venv
 poetry.lock
+.idea
