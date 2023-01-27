@@ -1,14 +1,14 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="FastAPI-Uvicorn" type="PythonConfigurationType" factoryName="Python">
     <module name="znanija-api-gateway" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
     </envs>
-    <option name="SDK_HOME" value="$PROJECT_DIR$/.venv/Scripts/python.exe" />
+    <option name="SDK_HOME" value="$PROJECT_DIR$\.venv\Scripts\python.exe" />
     <option name="SDK_NAME" value="Python 3.10 (znanija-api-gateway)" />
-    <option name="WORKING_DIRECTORY" value="" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
