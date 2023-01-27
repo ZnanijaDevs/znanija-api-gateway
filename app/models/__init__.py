@@ -1,4 +1,4 @@
-from .payloads import CheckDeletedTasksPayload, SendMessageToUserPayload, BanUserPayload
+from .payloads import SendMessageToUserPayload, BanUserPayload
 from .entities import BanType, AnswersCountBySubject, TransformedGraphqlUser, LegacyUserWithBasicData, \
     LegacyUser, ModeratorInModeratorsList, PlaceInModeratorsRanking, ReportedContentsCountBySubject, \
     LegacyAnswer, LegacyQuestion, EntryInTaskLog, BRAINLY_ID, FeedNode, ModerationRankingType
@@ -6,7 +6,6 @@ from .responses import BanUserResponse, CancelBanResponse, SendMessageToUserResp
 
 
 __all__ = [
-    "CheckDeletedTasksPayload",
     "SendMessageToUserPayload",
     "BanUserPayload",
     "BanUserResponse",

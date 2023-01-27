@@ -1,9 +1,5 @@
-from pydantic import BaseModel, conlist, constr
+from pydantic import BaseModel, constr
 from .entities import BRAINLY_ID, BanType
-
-
-class CheckDeletedTasksPayload(BaseModel):
-    ids: conlist(item_type=BRAINLY_ID, max_items=100)
 
 
 class SendMessageToUserPayload(BaseModel):

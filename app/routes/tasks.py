@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from fastapi_cache.decorator import cache
 
-from app.models import BRAINLY_ID, CheckDeletedTasksPayload, EntryInTaskLog, LegacyQuestion
-from app.brainly_api import legacy_api, graphql_api
+from app.models import BRAINLY_ID, EntryInTaskLog, LegacyQuestion
+from app.brainly_api import legacy_api
 from app.brainly_api.exceptions import QuestionDoesNotExistException
 from app.util import transform_task_log_entries, transform_legacy_task
 
@@ -33,16 +33,3 @@ async def get_task_log(id: BRAINLY_ID):
         return transform_task_log_entries(log_entries, users_data)
     except QuestionDoesNotExistException:
         return []
-
-
-@router.post("/check_deleted", response_model=list[bool])
-@cache(expire=1)
-async def check_deleted_tasks(payload: CheckDeletedTasksPayload):
-    fetched_questions = await graphql_api.mapped_query_with_ids(
-        payload.ids,
-        "question",
-        "id",
-        transform_entry=lambda question: question is None,
-    )
-
-    return fetched_questions
