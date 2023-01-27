@@ -1,3 +1,4 @@
+import logging
 import json
 from typing import Any
 from http import HTTPStatus
@@ -28,7 +29,7 @@ async def _request(path: str, method: str, data: Any | None = None):
 
         response = await http_client.request(method, path, data=data)
 
-        print(f"\033[93m legacy pages request -> {method.upper()} {path}, {data} \033[0m")
+        logging.info(f"Legacy pages request ({response.status_code}) -> {method.upper()} {path}, {data}")
 
         assert response.status_code != HTTPStatus.UNAUTHORIZED, f"{path} 401 Unauthorized error"
 

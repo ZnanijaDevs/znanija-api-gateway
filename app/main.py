@@ -1,3 +1,4 @@
+import logging
 import rollbar
 from fastapi import FastAPI, Depends
 from starlette.middleware.cors import CORSMiddleware
@@ -15,6 +16,7 @@ from app.routes import tasks, users, ranking, feed, homepage, moderators, report
 from app.generate_openapi import generate_custom_openapi
 
 
+logging.basicConfig(level=logging.INFO)
 rollbar.init(env("ROLLBAR_ACCESS_TOKEN"))
 
 
@@ -23,7 +25,7 @@ def on_startup():
 
 
 def get_application() -> FastAPI:
-    print(f"Starting the application, is production: {is_production}")
+    logging.info("Starting the application, is production: %r", is_production)
 
     application = FastAPI(
         title="Znanija API Gateway",

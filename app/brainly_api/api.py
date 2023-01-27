@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 from abc import ABC
 from http import HTTPStatus
@@ -44,12 +45,7 @@ class Api(ABC):
             if len(body_in_log) > MAX_BODY_LENGTH_IN_LOG:
                 body_in_log = f"{body_in_log[:MAX_BODY_LENGTH_IN_LOG]}..."
 
-            print(
-                "\x1b[1;34m" +
-                f"brainly api request -> {url}: body: {body_in_log}, auth token: {self.auth_token}" +
-                f" // time: {r.elapsed.total_seconds()}s" +
-                "\x1b[0m"
-            )
+            logging.info(f"Brainly API request -> {r.status_code} {r.url.path}, body: {body_in_log}")
 
             assert r.status_code != HTTPStatus.BAD_GATEWAY, f"the response status is {r.status_code}"
             if r.status_code == HTTPStatus.FORBIDDEN and "captcha" in r.text:
