@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "znanija-api-gateway"
-version = "1.0.3"
+version = "1.0.4"
 description = "A service designed to communicate with the Brainly APIs"
 authors = ["vlaex <vlaex7@gmail.com>"]
 license = "MIT"
