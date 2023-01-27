@@ -51,6 +51,9 @@ class LegacyApi(Api):
         try:
             question = await self._request(f"api_tasks/main_view/{question_id}")
 
+            if question.data["task"]["user_id"] == 0:
+                raise QuestionDoesNotExistException(question_id)
+
             return question
         except BrainlyAPIRequestGeneralException as exc:
             if exc.exception_type_eq(40):
