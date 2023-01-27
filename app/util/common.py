@@ -21,9 +21,9 @@ def filter_node_content(content: str) -> str:
     return filtered_content
 
 
-def get_subject_by_id(id: int) -> str:
+def get_subject_by_id(id_: int) -> str:
     """Get Brainly subject by id"""
-    subject_id = str(id)
+    subject_id = str(id_)
 
     for subject in BRAINLY_SUBJECTS:
         if subject["id"] == subject_id:

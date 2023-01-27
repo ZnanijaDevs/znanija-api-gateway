@@ -6,12 +6,12 @@ from .common import filter_node_content, get_subject_by_id
 
 def transform_task_log_entries(entries: list[dict], users_data: list[dict]) -> list[EntryInTaskLog]:
     """Transform log entries to a list of EntryInTaskLog classes"""
-    def find_user(id: int) -> dict:
-        for user in users_data:
-            if user["id"] != id:
+    def find_user(id_: int):
+        for user_data in users_data:
+            if user_data["id"] != id_:
                 continue
 
-            return transform_legacy_user(user)
+            return transform_legacy_user(user_data)
 
     transformed_entries: list[EntryInTaskLog] = []
 

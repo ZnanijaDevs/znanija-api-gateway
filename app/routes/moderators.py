@@ -21,7 +21,7 @@ async def get_moderators_list():
 
     for element in user_data_elements:
         user_id = int(element("a").attr("href").split("-").pop())
-        user_ranks = element(".user-nick span").map(lambda _, element: element.text.strip())
+        user_ranks = element(".user-nick span").map(lambda _, el: el.text.strip())
         avatar_src = element("img").attr("src")
 
         if len(user_ranks) == 0 or user_id in EXCLUDE_MODERATORS_FROM_MODS_LIST:
@@ -34,7 +34,7 @@ async def get_moderators_list():
             moderators.append(ModeratorInModeratorsList(
                 id=user_id,
                 nick=element(".nick").text(),
-                ranks=element(".user-nick span").map(lambda _, element: element.text.strip()),
+                ranks=element(".user-nick span").map(lambda _, el: el.text.strip()),
                 avatar=DEFAULT_USER_AVATAR if "img" in avatar_src else avatar_src
             ))
 

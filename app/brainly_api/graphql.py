@@ -40,8 +40,8 @@ class GraphqlApi(Api):
             return []
 
         query = extra_query + " query {"
-        for id in ids:
-            query += f"_{id}: {map_prefix}(id: \"{to_id(id, map_prefix)}\") " + "{" + body + "} "
+        for id_ in ids:
+            query += f"_{id_}: {map_prefix}(id: \"{to_id(id_, map_prefix)}\") " + "{" + body + "} "
 
         query += " }"
 

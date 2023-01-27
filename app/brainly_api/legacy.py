@@ -41,8 +41,8 @@ class LegacyApi(Api):
     async def get_users(self, ids: list[int]):
         """Get users by ID"""
         request_path = "api_users/get_by_id"
-        for id in ids:
-            request_path += f"{'?' if request_path.endswith('id') else '&'}id[]={id}"
+        for user_id in ids:
+            request_path += f"{'?' if request_path.endswith('id') else '&'}id[]={user_id}"
 
         return await self._request(request_path)
 
