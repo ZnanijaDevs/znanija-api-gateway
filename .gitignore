@@ -6,7 +6,6 @@ fly.toml
 .env*
 .pytest_cache
 .coverage
-test/secret_constants.py
 .venv
 poetry.lock
 .idea
