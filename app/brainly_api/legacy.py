@@ -17,16 +17,16 @@ class LegacyApiSuccessResponse:
 
 class LegacyApi(Api):
     """
-    Class that represents Brainly legacy API.
-    Will be replaced with Brainly GraphQL API in the future.
+    Class that represents the legacy API of Brainly.com (https://brainly.com/api/28).
+    Note that this API Will be replaced with the GraphQL one in the future.
     """
     async def _request(
         self,
         api_method: str,
-        http_method: str | None = "get",
+        http_method: str | None = "GET",
         data: Any | None = None
     ) -> LegacyApiSuccessResponse:
-        """Make a request to Brainly legacy API (private)"""
+        """Make a request to the API (private)"""
         r = await self._make_request(
             url=f"{self.legacy_api_url}/{api_method}",
             method=http_method,
@@ -72,7 +72,7 @@ class LegacyApi(Api):
             raise
 
     async def send_message(self, user_id: int, text: str):
-        """Send a message to Brainly user"""
+        """Send a message to a user"""
         conversation = await self._request("api_messages/check", "post", {
             "user_id": user_id
         })

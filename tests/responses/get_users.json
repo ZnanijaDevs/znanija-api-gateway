@@ -1,0 +1,20 @@
+[
+  {
+    "nick": "Balrog",
+    "id": 1,
+    "is_deleted": false,
+    "avatar": "https://ru-static.z-dn.net/files/ddd/616daab8d8bd2dc8d799cd8e56f89d56.jpg"
+  },
+  {
+    "nick": "miron",
+    "id": 2,
+    "is_deleted": false,
+    "avatar": null
+  },
+  {
+    "nick": "Аккаунт удален",
+    "id": 27630562,
+    "is_deleted": true,
+    "avatar": null
+  }
+]
