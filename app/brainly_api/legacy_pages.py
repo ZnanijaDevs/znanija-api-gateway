@@ -31,7 +31,7 @@ async def _request(path: str, method: str, data: Any | None = None):
 
         logging.info(f"Legacy pages request ({response.status_code}) -> {method.upper()} {path}, {data}")
 
-        assert response.status_code != HTTPStatus.UNAUTHORIZED, f"{path} 401 Unauthorized error"
+        assert response.status_code != HTTPStatus.UNAUTHORIZED, f"{path} Unauthorized request"
 
         return response
     except Exception as exc:
@@ -41,7 +41,11 @@ async def _request(path: str, method: str, data: Any | None = None):
 async def get_parsed_page(path: str) -> PyQuery:
     """Sends a request to the specified Brainly page, parses it and returns a document"""
     response = await _request(path, "get")
-    assert response.text != "", "no text in legacy page. perhaps, user is not authed"
+    if response.text == "":
+        raise BrainlyAPIRequestGeneralException(
+            error_details="Unexpected fetch error",
+            source="legacy_pages"
+        )
 
     return PyQuery(response.text)
 

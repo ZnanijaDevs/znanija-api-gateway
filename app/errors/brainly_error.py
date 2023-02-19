@@ -27,4 +27,4 @@ async def brainly_request_error_handler(
         "detail": "brainly_request_error",
         "exception_details": error_details,
         "exception_source": error_source
-    }, status_code=HTTPStatus.BAD_GATEWAY)
+    }, status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
