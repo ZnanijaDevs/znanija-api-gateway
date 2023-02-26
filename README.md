@@ -17,3 +17,13 @@ BRAINLY_PROXY_HOST_URL="https://znanija.com" # CloudFlare must not protect this 
 BRAINLY_PROXY_AUTH_PASS="<base64-pass-to-proxy>"
 ROLLBAR_ACCESS_TOKEN="<token>" // used in production
 ```
+
+```bash
+$ py -m venv .venv
+$ cd ./venv/Scripts
+$ .\activate
+$ cd ../../
+$ pip install poetry
+$ poetry install
+$ uvicorn app.main:app --port 8000
+```
